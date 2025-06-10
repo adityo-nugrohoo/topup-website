@@ -138,6 +138,7 @@
     <p>Halo, <strong>{{ Auth::user()->name }}</strong></p>
     <a href="/dashboard"><i class="bi bi-house-door"></i> Dashboard</a>
     <a href="/topup"><i class="bi bi-cart-plus"></i> Form Top Up</a>
+    <a href="/profile"><i class="bi bi-person-circle"></i> Profil</a>
     <button onclick="toggleDarkMode()" class="btn btn-outline-light btn-sm">🌙 Dark Mode</button>
     <form action="/logout" method="POST" class="mt-3">
       @csrf

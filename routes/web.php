@@ -34,3 +34,7 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth');
 
 Route::post('/topup', [TopupController::class, 'store'])->name('topup.store');
+
+Route::get('/profile', function () {
+    return view('profile');
+})->middleware('auth');

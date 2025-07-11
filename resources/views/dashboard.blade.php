@@ -202,33 +202,35 @@
       @if(count($transactions ?? []) > 0)
       <div class="table-responsive">
         <table class="table table-sm table-hover text-dark dark-mode-text-white" id="topupTable">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Game</th>
-              <th>ID Pemain</th>
-              <th>Jumlah</th>
-              <th>Status</th>
-            </tr>
-          </thead>
+         <thead>
+          <tr>
+            <th>#</th>
+            <th>Game</th>
+            <th>ID Pemain</th>
+            <th>Jumlah</th>
+            <th>Status</th>
+            <th>Tanggal</th> <!-- Tambahan -->
+          </tr>
+        </thead>
           <tbody>
-            @foreach($transactions as $index => $trx)
-            <tr>
-              <td>{{ $index + 1 }}</td>
-              <td>{{ $trx->game }}</td>
-              <td>{{ $trx->player_id }}</td>
-              <td>{{ $trx->jumlah }}</td>
-              <td>
-                @if($trx->status == 'Sukses')
-                <span class="badge bg-success">{{ $trx->status }}</span>
-                @elseif($trx->status == 'Diproses')
-                <span class="badge bg-warning text-dark">{{ $trx->status }}</span>
-                @else
-                <span class="badge bg-danger">{{ $trx->status }}</span>
-                @endif
-              </td>
-            </tr>
-            @endforeach
+           @foreach($transactions as $index => $trx)
+          <tr>
+            <td>{{ $index + 1 }}</td>
+            <td>{{ $trx->game }}</td>
+            <td>{{ $trx->player_id }}</td>
+            <td>{{ $trx->jumlah }}</td>
+            <td>
+              @if($trx->status == 'Sukses')
+              <span class="badge bg-success">{{ $trx->status }}</span>
+              @elseif($trx->status == 'Diproses')
+              <span class="badge bg-warning text-dark">{{ $trx->status }}</span>
+              @else
+              <span class="badge bg-danger">{{ $trx->status }}</span>
+              @endif
+            </td>
+            <td>{{ $trx->created_at->format('d M Y H:i') }}</td> <!-- Tanggal ditambahkan -->
+          </tr>
+          @endforeach
           </tbody>
         </table>
       </div>

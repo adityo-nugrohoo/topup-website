@@ -18,12 +18,14 @@ class TopupController extends Controller
             'payment_method' => 'required|string',
         ]);
 
-        Transaction::create([
-            'user_id' => Auth::id(),
-            'game' => $request->game,
-            'player_id' => $request->player_id,
-            'amount' => $request->amount,
-            'status' => 'Diproses',
+       Transaction::create([
+    'user_id' => Auth::id(),
+    'game' => $request->game,
+    'player_id' => $request->player_id,
+    'email' => $request->email, // ✅ Tambahkan ini
+    'amount' => $request->amount,
+    'payment_method' => $request->payment_method, // ✅ Jika pakai
+    'status' => 'Diproses',
         ]);
 
         return redirect()->route('dashboard')->with('success', 'Top up berhasil diajukan!');

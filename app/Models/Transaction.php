@@ -9,7 +9,17 @@ class Transaction extends Model
 {
     use HasFactory;
 
-    // created_at dan updated_at aktif secara default, jadi ini opsional:
+    // Jika tabel memiliki kolom created_at dan updated_at
     public $timestamps = true;
-}
 
+    // Kolom yang boleh diisi secara mass assignment
+    protected $fillable = [
+        'user_id',
+        'game',
+        'player_id',
+        'email',
+        'amount',
+        'payment_method',
+        'status',
+    ];
+}

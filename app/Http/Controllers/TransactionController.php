@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Transaction;
+use App\Models\User;
+use Carbon\Carbon;
 use Exception;
 
 class TransactionController extends Controller
@@ -34,12 +36,24 @@ class TransactionController extends Controller
             $transaction->email = $data['email'];
             $transaction->amount = $data['amount'];
             $transaction->payment_method = $data['payment_method'];
-            $transaction->status = 'Diproses'; // Default status
+            $transaction->status = 'Diproses';
             $transaction->save();
 
-            return redirect()->back()->with('success', 'Top Up berhasil dilakukan dan sedang diproses!');
+            // Redirect ke dashboard dengan notifikasi sukses
+            return redirect()->route('dashboard')->with('success', 'Top Up berhasil dilakukan dan sedang diproses!');
         } catch (Exception $e) {
             return redirect()->back()->with('error', 'Gagal melakukan transaksi. Silakan coba lagi.');
         }
+    }
+
+    public function dashboard()
+    {
+        Carbon::setLocale('id');
+
+        $transactions = Transaction::where('user_id', Auth::id())->orderBy('created_at', 'desc')->get();
+        $totalUsers = User::count();
+        $totalNominalTopUp = Transaction::where('status', 'Sukses')->sum('amount');
+
+        return view('dashboard', compact('transactions', 'totalUsers', 'totalNominalTopUp'));
     }
 }

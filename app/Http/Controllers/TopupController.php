@@ -2,34 +2,30 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Transaction;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class TopupController extends Controller
 {
     public function store(Request $request)
     {
-        // Validasi input
         $request->validate([
             'game' => 'required|string',
             'player_id' => 'required|string',
             'email' => 'required|email',
-            'amount' => 'required|numeric',
+            'amount' => 'required|string',
             'payment_method' => 'required|string',
         ]);
 
-        // Simpan ke database
-        DB::table('topups')->insert([
+        Transaction::create([
+            'user_id' => Auth::id(),
             'game' => $request->game,
             'player_id' => $request->player_id,
-            'email' => $request->email,
             'amount' => $request->amount,
-            'payment_method' => $request->payment_method,
-            'created_at' => now(),
-            'updated_at' => now(),
+            'status' => 'Diproses',
         ]);
 
-        // Redirect dengan pesan sukses
-        return redirect()->back()->with('success', 'Top Up berhasil disimpan!');
+        return redirect()->route('dashboard')->with('success', 'Top up berhasil diajukan!');
     }
 }
